@@ -1,4 +1,4 @@
-package com.arsars.realestateapp.ui.screens
+package com.arsars.realestateapp.ui.screens.property.list
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

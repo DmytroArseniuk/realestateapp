@@ -12,8 +12,8 @@ import androidx.navigation.navArgument
 import com.arsars.realestateapp.ui.navigation.DestinationArgs.PROPERTY_ID_ARG
 import com.arsars.realestateapp.ui.navigation.Destinations.PROPERTY_DETAILS_ROUTE
 import com.arsars.realestateapp.ui.navigation.Destinations.PROPERTY_LIST_ROUTE
-import com.arsars.realestateapp.ui.screens.PropertyDetailsScreen
-import com.arsars.realestateapp.ui.screens.PropertyListScreen
+import com.arsars.realestateapp.ui.screens.property.details.PropertyDetailsScreen
+import com.arsars.realestateapp.ui.screens.property.list.PropertyListScreen
 
 @Composable
 fun NavGraph(
