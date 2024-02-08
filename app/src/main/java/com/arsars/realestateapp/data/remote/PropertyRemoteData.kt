@@ -4,14 +4,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PropertyRemoteData(
-    val bedrooms: Int,
-    val city: String,
     val id: Long,
+    val city: String,
     val area: Float,
-    val url: String,
     val price: Float,
     val professional: String,
     val propertyType: String,
     val offerType: Int,
-    val rooms: Int
+    val url: String? = null,
+    val bedrooms: Int? = null,
+    val rooms: Int? = null
 )
