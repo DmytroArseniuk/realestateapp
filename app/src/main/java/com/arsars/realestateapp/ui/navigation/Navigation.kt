@@ -33,7 +33,7 @@ class NavigationActions(
         }
     }
 
-    fun navigateToPropertyDetailsScreen(id: String) {
+    fun navigateToPropertyDetailsScreen(id: Long) {
         navController.navigate("$PROPERTY_DETAILS/$id")
     }
 }
