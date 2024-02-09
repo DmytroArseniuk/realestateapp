@@ -7,6 +7,7 @@
 ## Technologies
 
 - Jetpack Compose
+- Coil
 - Hilt
 - Retrofit
 - KotlinX Serialization
