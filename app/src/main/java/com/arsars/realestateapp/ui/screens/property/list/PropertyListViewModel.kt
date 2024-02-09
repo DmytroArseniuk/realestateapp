@@ -43,7 +43,7 @@ class PropertyListViewModel
         viewModelScope.launch {
             _screenState.update { it.copy(isLoading = true) }
             try {
-                val result = getPropertiesUseCase.invoke(GetPropertiesUseCase.Input)
+                val result = getPropertiesUseCase(GetPropertiesUseCase.Input)
                 _screenState.update {
                     it.copy(
                         isLoading = false,

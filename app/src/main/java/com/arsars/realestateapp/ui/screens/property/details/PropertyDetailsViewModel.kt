@@ -43,7 +43,7 @@ class PropertyDetailsViewModel
             if (id != null) {
                 _screenState.update { it.copy(isLoading = true) }
                 try {
-                    val result = getPropertyUseCase.execute(GetPropertyUseCase.Input(id))
+                    val result = getPropertyUseCase(GetPropertyUseCase.Input(id))
                     _screenState.update {
                         it.copy(
                             isLoading = false,
