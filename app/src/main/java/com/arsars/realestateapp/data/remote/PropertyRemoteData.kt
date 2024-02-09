@@ -7,7 +7,7 @@ data class PropertyRemoteData(
     val id: Long,
     val city: String,
     val area: Float,
-    val price: Double,
+    val price: Float,
     val professional: String,
     val propertyType: String,
     val offerType: Int,
