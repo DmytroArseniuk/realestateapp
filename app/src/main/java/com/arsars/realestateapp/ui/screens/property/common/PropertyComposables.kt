@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.arsars.realestateapp.R
@@ -25,7 +26,7 @@ fun PropertyImage(
 ) {
     AsyncImage(
         model = property.url,
-        contentDescription = "Property image",
+        contentDescription = stringResource(R.string.property_image),
         contentScale = ContentScale.FillWidth,
         modifier = modifier
             .fillMaxWidth()
@@ -49,7 +50,7 @@ fun PropertyImageStub(
                 .size(64.dp),
             painter = painterResource(id = R.drawable.no_property_image),
             tint = Color.Gray,
-            contentDescription = "Property image not available"
+            contentDescription = stringResource(R.string.property_image_not_available)
         )
     }
 

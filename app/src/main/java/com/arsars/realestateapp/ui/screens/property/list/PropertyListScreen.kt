@@ -1,11 +1,13 @@
 package com.arsars.realestateapp.ui.screens.property.list
 
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +26,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,10 +44,16 @@ fun PropertyListScreen(
     openDetails: (id: Long) -> Unit,
     viewModel: PropertyListViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     LaunchedEffect(true) {
         viewModel.screenEvent.collect {
             when (it) {
                 is PropertyScreenEvent.OpenPropertyDetails -> openDetails(it.id)
+                is PropertyScreenEvent.ShowError -> Toast.makeText(
+                    context,
+                    it.message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -66,7 +75,7 @@ fun PropertyListScreen(
     }
 
     Box(Modifier.nestedScroll(pullToRefreshState.nestedScrollConnection)) {
-        LazyColumn(modifier) {
+        LazyColumn(modifier.fillMaxSize()) {
             items(
                 items = screenState.value.properties,
                 key = { it.id }

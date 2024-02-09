@@ -1,12 +1,13 @@
 package com.arsars.realestateapp.ui.screens.property.details
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,8 +22,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.arsars.realestateapp.R
 import com.arsars.realestateapp.ui.screens.property.common.PropertyImage
 import com.arsars.realestateapp.ui.screens.property.common.PropertyImageStub
 import com.arsars.realestateapp.ui.utils.formatArea
@@ -35,11 +39,16 @@ fun PropertyDetailsScreen(
     navigateUp: () -> Unit,
     viewModel: PropertyDetailsViewModel = hiltViewModel()
 ) {
-
+    val context = LocalContext.current
     LaunchedEffect(true) {
         viewModel.screenEvent.collect {
             when (it) {
                 PropertyScreenEvent.NavigateUp -> navigateUp()
+                is PropertyScreenEvent.ShowError -> Toast.makeText(
+                    context,
+                    it.message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -61,7 +70,13 @@ fun PropertyDetailsScreen(
 
 
     Box(Modifier.nestedScroll(pullToRefreshState.nestedScrollConnection)) {
-        PropertyView(modifier, screenState, navigateUp)
+        PropertyView(modifier, screenState)
+        IconButton(onClick = { navigateUp() }) {
+            Icon(
+                Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = stringResource(R.string.back)
+            )
+        }
         PullToRefreshContainer(
             modifier = Modifier.align(Alignment.TopCenter),
             state = pullToRefreshState,
@@ -73,19 +88,13 @@ fun PropertyDetailsScreen(
 private fun PropertyView(
     modifier: Modifier,
     state: State<PropertyScreenState>,
-    navigateUp: () -> Unit
 ) {
     Column(modifier.verticalScroll(rememberScrollState())) {
         state.value.property?.let { property ->
-            Box {
-                if (property.url.isNullOrEmpty()) {
-                    PropertyImageStub()
-                } else {
-                    PropertyImage(property = property)
-                }
-                IconButton(onClick = { navigateUp() }) {
-                    Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                }
+            if (property.url.isNullOrEmpty()) {
+                PropertyImageStub()
+            } else {
+                PropertyImage(property = property)
             }
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(

@@ -1,8 +1,9 @@
 package com.arsars.realestateapp.ui.screens.property.list
 
-import android.util.Log
+import android.content.res.Resources
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.arsars.realestateapp.R
 import com.arsars.realestateapp.domain.Property
 import com.arsars.realestateapp.domain.usecases.properties.GetPropertiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PropertyListViewModel
 @Inject constructor(
-    private val getPropertiesUseCase: GetPropertiesUseCase
+    private val getPropertiesUseCase: GetPropertiesUseCase,
+    private val resources: Resources
 ) : ViewModel() {
 
     private val _screenState = MutableStateFlow(PropertiesScreenState())
@@ -40,12 +42,22 @@ class PropertyListViewModel
     fun loadItems() {
         viewModelScope.launch {
             _screenState.update { it.copy(isLoading = true) }
-            val result = getPropertiesUseCase.invoke(GetPropertiesUseCase.Input)
-            _screenState.update {
-                it.copy(
-                    isLoading = false,
-                    properties = result.properties
-                )
+            try {
+                val result = getPropertiesUseCase.invoke(GetPropertiesUseCase.Input)
+                _screenState.update {
+                    it.copy(
+                        isLoading = false,
+                        properties = result.properties
+                    )
+                }
+            } catch (ex: Throwable) {
+                _screenState.update {
+                    it.copy(
+                        isLoading = false,
+                        properties = emptyList()
+                    )
+                }
+                _screenEvent.emit(PropertyScreenEvent.ShowError(resources.getString(R.string.cannot_load)))
             }
         }
     }
