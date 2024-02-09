@@ -1,9 +1,10 @@
 package com.arsars.realestateapp.ui.screens.property.list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arsars.realestateapp.domain.Property
-import com.arsars.realestateapp.domain.usecases.GetPropertiesUseCase
+import com.arsars.realestateapp.domain.usecases.properties.GetPropertiesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +28,16 @@ class PropertyListViewModel
     val screenEvent = _screenEvent.asSharedFlow()
 
     init {
+        loadItems()
+    }
+
+    fun openPropertyDetails(property: Property) {
+        viewModelScope.launch {
+            _screenEvent.emit(PropertyScreenEvent.OpenPropertyDetails(property.id))
+        }
+    }
+
+    fun loadItems() {
         viewModelScope.launch {
             _screenState.update { it.copy(isLoading = true) }
             val result = getPropertiesUseCase.invoke(GetPropertiesUseCase.Input)
@@ -36,12 +47,6 @@ class PropertyListViewModel
                     properties = result.properties
                 )
             }
-        }
-    }
-
-    fun openPropertyDetails(property: Property) {
-        viewModelScope.launch {
-            _screenEvent.emit(PropertyScreenEvent.OpenPropertyDetails(property.id))
         }
     }
 }

@@ -1,6 +1,7 @@
-package com.arsars.realestateapp.domain.usecases
+package com.arsars.realestateapp.domain.usecases.properties
 
 import com.arsars.realestateapp.domain.Property
+import com.arsars.realestateapp.domain.usecases.BaseSuspendUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 
 abstract class GetPropertiesUseCase(dispatcher: CoroutineDispatcher) :

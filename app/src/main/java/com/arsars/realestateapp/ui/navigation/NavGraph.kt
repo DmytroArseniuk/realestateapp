@@ -38,10 +38,12 @@ fun NavGraph(
         composable(
             route = PROPERTY_DETAILS_ROUTE,
             arguments = listOf(
-                navArgument(PROPERTY_ID_ARG) { type = NavType.StringType }
+                navArgument(PROPERTY_ID_ARG) { type = NavType.LongType }
             )
         ) {
-            PropertyDetailsScreen()
+            PropertyDetailsScreen(
+                navigateUp = { navController.popBackStack() }
+            )
         }
 
     }

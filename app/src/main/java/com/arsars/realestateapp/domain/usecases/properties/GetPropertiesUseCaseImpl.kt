@@ -1,4 +1,4 @@
-package com.arsars.realestateapp.domain.usecases
+package com.arsars.realestateapp.domain.usecases.properties
 
 import com.arsars.realestateapp.di.DispatcherIo
 import com.arsars.realestateapp.domain.PropertyRepository
